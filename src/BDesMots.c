@@ -1,4 +1,10 @@
 // Fonction pour charger les mots depuis le fichier
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <stddef.h>
+#include <BDesMots.h>"
+
 int load_wordle_words(const char* chemin, char mots[MAX_WORDS][WORD_LENGTH]) {
     FILE* fichier = fopen(chemin, "r");
     if (!fichier) {
