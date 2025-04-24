@@ -1,115 +1,63 @@
-# Bibliothèque de fonctions pour Wordle (BDesMots)
+# Jeu de Wordle avec Filtres
 
-Cette bibliothèque en C fournit des fonctions pour charger, filtrer et manipuler une liste de mots de 5 lettres, utiles pour implémenter le jeu Wordle ou des applications similaires.
+Ce projet implémente une version du jeu Wordle en C, offrant des fonctionnalités de filtrage de la liste des mots pour aider à trouver la solution.
 
-## Fonctions incluses
+## Fonctionnalités
 
-### `load_wordle_words(const char* chemin, char mots[MAX_WORDS][WORD_LENGTH])`
+Le programme permet de :
 
-Charge les mots de 5 lettres depuis un fichier texte. Chaque ligne du fichier peut contenir un ou plusieurs mots séparés par des espaces, des tabulations ou des sauts de ligne. Seuls les mots de 5 lettres sont stockés dans le tableau `mots`.
+* **Charger une liste de mots de 5 lettres** depuis un fichier texte (`bdd_wordle.txt`).
+* **Filtrer la liste des mots** en fonction de différents critères :
+    * **Présence d'une ou plusieurs lettres spécifiques.**
+    * **Absence d'une ou plusieurs lettres spécifiques.**
+    * **Présence d'un sous-mot spécifique.**
 
-**Paramètres :**
+L'objectif est d'utiliser ces filtres de manière interactive pour réduire progressivement la liste des mots possibles et découvrir le mot Wordle caché.
 
-* `chemin`: Le chemin d'accès au fichier contenant la liste de mots.
-* `mots`: Un tableau de chaînes de caractères où les mots chargés seront stockés. `MAX_WORDS` et `WORD_LENGTH` sont des constantes définies dans `BDesMots.h`.
+## Fichiers inclus
 
-**Valeur de retour :**
-
-* Le nombre de mots de 5 lettres chargés avec succès.
-* `-1` en cas d'erreur lors de l'ouverture du fichier.
-
-### `filtrer_par_lettres_presentes(char mots[][WORD_LENGTH], int totalMots, const char* lettres, char motsFiltres[][WORD_LENGTH])`
-
-Filtre un tableau de mots pour ne conserver que ceux qui contiennent toutes les lettres spécifiées. L'ordre des lettres dans le mot n'a pas d'importance.
-
-**Paramètres :**
-
-* `mots`: Le tableau de mots à filtrer.
-* `totalMots`: Le nombre total de mots dans le tableau `mots`.
-* `lettres`: Une chaîne de caractères contenant les lettres qui doivent être présentes dans les mots filtrés.
-* `motsFiltres`: Un tableau de chaînes de caractères où les mots correspondants aux critères seront stockés.
-
-**Valeur de retour :**
-
-* Le nombre de mots filtrés qui contiennent toutes les lettres spécifiées.
-
-### `exclure_par_lettres(char mots[][WORD_LENGTH], int totalMots, const char* exclure, char motsFiltres[][WORD_LENGTH])`
-
-Filtre un tableau de mots pour exclure ceux qui contiennent au moins une des lettres spécifiées.
-
-**Paramètres :**
-
-* `mots`: Le tableau de mots à filtrer.
-* `totalMots`: Le nombre total de mots dans le tableau `mots`.
-* `exclure`: Une chaîne de caractères contenant les lettres dont la présence dans un mot entraînera son exclusion.
-* `motsFiltres`: Un tableau de chaînes de caractères où les mots ne contenant aucune des lettres exclues seront stockés.
-
-**Valeur de retour :**
-
-* Le nombre de mots filtrés qui ne contiennent aucune des lettres spécifiées.
-
-### `filtrer_par_sous_mot(char mots[][WORD_LENGTH], int totalMots, const char* sousMot, char motsFiltres[][WORD_LENGTH])`
-
-Filtre un tableau de mots pour ne conserver que ceux qui contiennent le sous-mot spécifié.
-
-**Paramètres :**
-
-* `mots`: Le tableau de mots à filtrer.
-* `totalMots`: Le nombre total de mots dans le tableau `mots`.
-* `sousMot`: La chaîne de caractères représentant le sous-mot à rechercher.
-* `motsFiltres`: Un tableau de chaînes de caractères où les mots contenant le sous-mot seront stockés.
-
-**Valeur de retour :**
-
-* Le nombre de mots filtrés qui contiennent le sous-mot spécifié.
+* `BDesMots.h`: Fichier d'en-tête contenant les définitions des constantes (comme `MAX_WORDS`, `WORD_LENGTH`, `LINE_SIZE`) et les déclarations des fonctions.
+* `fonctions_wordle.c`: Fichier source contenant l'implémentation des fonctions de chargement et de filtrage des mots.
+* `bdd_wordle.txt`: Fichier texte contenant la liste des mots de 5 lettres (un mot par ligne ou plusieurs mots séparés par des espaces, des tabulations ou des sauts de ligne).
+* `main.c`: Fichier source contenant la fonction `main` qui gère l'interaction avec l'utilisateur et l'application des filtres.
+* `README.md`: Ce fichier, fournissant des informations sur le projet.
 
 ## Utilisation
 
-Pour utiliser ces fonctions, vous devez :
+1.  **Compilation :** Compilez les fichiers sources `main.c` et `fonctions_wordle.c` en utilisant un compilateur C (par exemple, GCC) et liez-les pour créer un exécutable. Assurez-vous que le fichier `BDesMots.h` est dans le même répertoire ou dans un chemin d'inclusion connu.
 
-1.  Inclure le fichier d'en-tête `BDesMots.h` dans votre code source C. Ce fichier doit contenir les définitions des constantes `MAX_WORDS` et `WORD_LENGTH`.
-2.  Compiler votre code source avec ces fonctions.
-3.  Appeler les fonctions appropriées en passant les arguments nécessaires.
+    ```bash
+    gcc main.c fonctions_wordle.c -o wordle
+    ```
 
-## Exemple d'utilisation
+2.  **Exécution :** Exécutez le programme.
 
-```c
-#include <stdio.h>
-#include <string.h>
-#include "BDesMots.h"
+    ```bash
+    ./wordle
+    ```
 
-int main() {
-    char tousLesMots[MAX_WORDS][WORD_LENGTH];
-    char motsFiltres1[MAX_WORDS][WORD_LENGTH];
-    char motsFiltres2[MAX_WORDS][WORD_LENGTH];
-    char motsFiltres3[MAX_WORDS][WORD_LENGTH];
+3.  **Interaction :** Le programme affichera des options pour appliquer différents filtres à la liste des mots. Suivez les instructions à l'écran pour :
+    * Afficher les mots contenant certaines lettres.
+    * Exclure les mots contenant certaines lettres.
+    * Rechercher des mots contenant un sous-mot.
 
-    int nombreTotalMots = load_wordle_words("liste_mots.txt", tousLesMots);
+    En appliquant ces filtres de manière séquentielle, vous pourrez réduire la liste des candidats jusqu'à trouver le mot Wordle.
 
-    if (nombreTotalMots > 0) {
-        printf("Nombre total de mots chargés : %d\n", nombreTotalMots);
+## Structure du code
 
-        int nombreMotsAvecAE = filtrer_par_lettres_presentes(tousLesMots, nombreTotalMots, "ae", motsFiltres1);
-        printf("Nombre de mots contenant 'a' et 'e' : %d\n", nombreMotsAvecAE);
-        for (int i = 0; i < nombreMotsAvecAE && i < 10; i++) {
-            printf("%s ", motsFiltres1[i]);
-        }
-        printf("...\n");
+Le code est organisé en plusieurs fonctions pour une meilleure modularité :
 
-        int nombreMotsSansXYZ = exclure_par_lettres(tousLesMots, nombreTotalMots, "xyz", motsFiltres2);
-        printf("Nombre de mots ne contenant pas 'x', 'y' ou 'z' : %d\n", nombreMotsSansXYZ);
-        // ... (Affichage possible de ces mots)
+* `load_wordle_words()`: Charge les mots depuis le fichier `bdd_wordle.txt`.
+* `filtrer_par_lettres_presentes()`: Sélectionne les mots contenant toutes les lettres spécifiées.
+* `exclure_par_lettres()`: Supprime les mots contenant au moins une des lettres spécifiées.
+* `filtrer_par_sous_mot()`: Sélectionne les mots contenant le sous-mot spécifié.
 
-        int nombreMotsAvecOUS = filtrer_par_sous_mot(tousLesMots, nombreTotalMots, "ous", motsFiltres3);
-        printf("Nombre de mots contenant le sous-mot 'ous' : %d\n", nombreMotsAvecOUS);
-        for (int i = 0; i < nombreMotsAvecOUS && i < 10; i++) {
-            printf("%s ", motsFiltres3[i]);
-        }
-        printf("...\n");
+La fonction `main` gère la boucle principale du jeu, permettant à l'utilisateur d'entrer des critères de filtrage et d'afficher la liste des mots correspondants à chaque étape.
 
-    } else {
-        printf("Aucun mot chargé.\n");
-    }
+## Améliorations possibles
 
-    return 0;
-}
+* Implémenter une logique de jeu Wordle complète avec des tentatives limitées et un retour d'information sur la position des lettres.
+* Permettre des filtres plus avancés, par exemple, spécifier la position exacte d'une lettre.
+* Ajouter une interface utilisateur plus conviviale.
+* Gérer les erreurs de saisie de l'utilisateur de manière plus robuste.
+* Optimiser le chargement et le filtrage de la liste des mots pour de très grands fichiers.
