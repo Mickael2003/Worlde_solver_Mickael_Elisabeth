@@ -1,15 +1,12 @@
- Utilisation
+1. Utilisation
  cd Document
- git clone 
+ git clone https://github.com/Mickael2003/Worlde_solver_Mickael_Elisabeth.git
 
-1.  Compilation :
+2.  Compilation :
 
-    
     gcc -o bin/elisa src/FonctionMain.c  src/BDesMots.c
   
+3.  Exécution
 
-2.  Exécution 
-
-   
-    ./bin/elisa
+ /bin elisa
 
